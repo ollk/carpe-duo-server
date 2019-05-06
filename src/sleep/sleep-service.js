@@ -4,19 +4,32 @@
 
 const SleepService = {
 
+  getUserSleep(db, user_id) {
+    return db
+      .from('carpeduo_users')
+      .select(
+        'sat_wake',
+        'sat_bed',
+        'sun_wake',
+        'sun_bed'
+      )
+      .where('id', user_id);
+  },
+
   updateSleep(db, newSleep) {
     return db
       .into('carpeduo_users')
       .update({
-        usersatwake: newSleep.userSatWake,
-        usersatbed: newSleep.userSatBed,
-        usersunwake: newSleep.userSunWake,
-        usersunbed: newSleep.userSunBed
+        sat_wake: newSleep.sat_wake,
+        sat_bed: newSleep.sat_bed,
+        sun_wake: newSleep.sun_wake,
+        sun_bed: newSleep.sun_bed
       })
       .where('id', '=', newSleep.id)
-      .returning(['usersatwake','usersatbed','usersunwake','usersunbed']);
+      .returning(['sat_wake','sat_bed','sun_wake','sun_bed']);
     //end here?  may work for this purpose
   },
+
 
   //Any reason to serialize??
   // serializeSleep(sleep) {
