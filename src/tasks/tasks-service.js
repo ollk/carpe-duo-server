@@ -4,6 +4,13 @@ const xss = require('xss');
 
 const TasksService = {
 
+  getUserTasks(db, user_id) {
+    return db
+      .from('carpeduo_tasks')
+      .select('*')
+      .where('user_id', user_id);
+  },
+
   insertTask(db, newTask) {
     return db
       .insert(newTask)
@@ -20,6 +27,10 @@ const TasksService = {
       priority: task.priority,
       user_id: task.user_id
     };
+  },
+
+  serializeTasks(tasks) {
+    return tasks.map(this.serializeTask);
   }
 };
 

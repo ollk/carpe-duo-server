@@ -9,6 +9,7 @@ const { NODE_ENV } = require('./config');
 const authRouter = require('./auth/auth-router');
 const usersRouter = require('./users/users-router');
 const tasksRouter = require('./tasks/tasks-router');
+const sleepRouter = require('./sleep/sleep-router');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/tasks', tasksRouter);
+app.use('/api/sleep', sleepRouter);
 
 
 app.use(function errorHandler(error, req, res, next) {
