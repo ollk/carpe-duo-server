@@ -76,4 +76,21 @@ tasksRouter
       .catch(next);
   });
 
+tasksRouter
+  .route('/:id')
+  .delete(requireAuth, (req, res, next) => {
+    const id = req.params.id;
+
+    TasksService.deleteTask(
+      req.app.get('db'),
+      id
+    )
+      .then(taskId => {
+        res
+          .status(200)
+          .json(taskId);
+      })
+      .catch(next);
+  });
+
 module.exports = tasksRouter;

@@ -30,6 +30,14 @@ const TasksService = {
       .returning('*');
   },
 
+  deleteTask(db, id) {
+    return db
+      .into('carpeduo_tasks')
+      .del()
+      .where('id', id)
+      .returning('id');
+  },
+
   serializeTask(task) {
     return {
       id: task.id,
