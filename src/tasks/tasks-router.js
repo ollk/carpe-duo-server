@@ -50,4 +50,30 @@ tasksRouter
       .catch(next);
   });
 
+tasksRouter
+  .route('/:id')
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    const id = req.params.id;
+    const { position, scheduled } = req.body;
+    const task = {id, position, scheduled};
+
+    for (const [key, value] of Object.entries(task))
+      if (value === null || value === undefined)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        });
+
+    TasksService.updateTask(
+      req.app.get('db'),
+      task
+    )
+      .then(task => {
+        res
+          .status(200)
+          .location(path.posix.join(req.originalUrl, `/${task.id}`))
+          .json(task);
+      })
+      .catch(next);
+  });
+
 module.exports = tasksRouter;

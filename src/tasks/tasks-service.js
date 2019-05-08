@@ -19,13 +19,26 @@ const TasksService = {
     //end here?  may work for this purpose
   },
 
+  updateTask(db, task) {
+    return db
+      .into('carpeduo_tasks')
+      .update({
+        scheduled: task.scheduled,
+        position: task.position
+      })
+      .where('id', task.id)
+      .returning('*');
+  },
+
   serializeTask(task) {
     return {
       id: task.id,
       task_name: xss(task.task_name),
       duration: task.duration,
       priority: task.priority,
-      user_id: task.user_id
+      user_id: task.user_id,
+      scheduled: task.scheduled,
+      position: task.position
     };
   },
 
