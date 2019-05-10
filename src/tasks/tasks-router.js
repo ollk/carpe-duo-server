@@ -77,6 +77,23 @@ tasksRouter
   });
 
 tasksRouter
+  .route('/reset/:userId')
+  .post(requireAuth, (req, res, next) => {
+    const user_id = req.params.userId;
+
+    TasksService.resetTasks(
+      req.app.get('db'),
+      user_id
+    )
+      .then(tasks => {
+        res
+          .status(200)
+          .json(tasks);
+      })
+      .catch(next);
+  });
+
+tasksRouter
   .route('/:id')
   .delete(requireAuth, (req, res, next) => {
     const id = req.params.id;

@@ -30,6 +30,16 @@ const TasksService = {
       .returning('*');
   },
 
+  resetTasks(db, user_id) {
+    return db
+      .into('carpeduo_tasks')
+      .update({
+        scheduled: false
+      })
+      .where('user_id', user_id)
+      .returning('*');
+  },
+
   deleteTask(db, id) {
     return db
       .into('carpeduo_tasks')
