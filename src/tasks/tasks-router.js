@@ -9,7 +9,6 @@ const tasksRouter = express.Router();
 const jsonBodyParser = express.json();
 
 
-//TODO: do i need to check if user exists?
 tasksRouter
   .route('/:user_id')
   .all(requireAuth)
