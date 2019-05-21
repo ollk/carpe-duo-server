@@ -20,10 +20,10 @@ function makeUsersArray() {
       first_name: 'TU2',
       user_name: 'test-user-2',
       password: 'password',
-      sat_wake: 14,
-      sat_bed: 44,
-      sun_wake: 62,
-      sun_bed: 92
+      sat_wake: 16,
+      sat_bed: 46,
+      sun_wake: 64,
+      sun_bed: 94
     },
     {
       id: 3,
@@ -84,7 +84,43 @@ function makeTasksArray(users) {
       scheduled: false,
       position: 0,
       priority: 'low',
-      user_id: users[3].id
+      user_id: users[0].id
+    },
+    {
+      id: 5,
+      task_name: 'test task 5',
+      duration: 30,
+      scheduled: true,
+      position: 30,
+      priority: 'low',
+      user_id: users[0].id
+    },
+    {
+      id: 6,
+      task_name: 'test task 6',
+      duration: 60,
+      scheduled: false,
+      position: 0,
+      priority: 'medium',
+      user_id: users[1].id
+    },
+    {
+      id: 7,
+      task_name: 'test task 7',
+      duration: 90,
+      scheduled: true,
+      position: 90,
+      priority: 'high',
+      user_id: users[2].id
+    },
+    {
+      id: 8,
+      task_name: 'test task 8',
+      duration: 120,
+      scheduled: false,
+      position: 0,
+      priority: 'low',
+      user_id: users[0].id
     }
   ];
 }
@@ -128,6 +164,7 @@ function seedTables(db, users, tasks) {
         .insert(tasks)
     )
 }
+
 
 function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
   const token = jwt.sign({user_id: user.id}, secret, {

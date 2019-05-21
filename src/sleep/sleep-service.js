@@ -1,7 +1,5 @@
 'use strict';
 
-//const xss = require('xss');
-
 const SleepService = {
 
   getUserSleep(db, user_id) {
@@ -27,19 +25,7 @@ const SleepService = {
       })
       .where('id', '=', newSleep.id)
       .returning(['sat_wake','sat_bed','sun_wake','sun_bed']);
-    //end here?  may work for this purpose
   },
-
-
-  //Any reason to serialize??
-  // serializeSleep(sleep) {
-  //   return {
-  //     userSatWake: sleep.userSatWake,
-  //     userSatBed: sleep.userSatBed,
-  //     userSunWake: sleep.userSunWake,
-  //     userSunBed: sleep.userSunBed
-  //   };
-  // }
 };
 
 module.exports = SleepService;

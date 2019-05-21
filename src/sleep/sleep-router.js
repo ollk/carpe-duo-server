@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const path = require('path');
 const SleepService = require('./sleep-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 
@@ -41,8 +40,6 @@ sleepRouter
       .then(sleep => {
         res
           .status(200)
-          //is this location piece necessary?  is it even true?
-          .location(path.posix.join(req.originalUrl, `/${sleep.id}`))
           .json(sleep);
       })
       .catch(next);
