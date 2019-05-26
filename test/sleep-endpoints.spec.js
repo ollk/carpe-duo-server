@@ -1,4 +1,5 @@
 'use strict';
+/* global supertest */
 
 const knex = require('knex');
 const app = require('../src/app');
@@ -18,19 +19,6 @@ describe('Sleep Endpoints', function() {
     });
     app.set('db', db);
   });
-
-  // after('disconnect from db', () => db.destroy());
-
-  // before('cleanup', () => helpers.cleanTables(db));
-
-  // afterEach('cleanup', () => helpers.cleanTables(db));
-
-  // beforeEach('insert sleep', () => {
-  //   helpers.seedUsers(
-  //     db,
-  //     testUsers
-  //   );
-  // });
 
   after('disconnect from db', () => db.destroy());
 
@@ -58,8 +46,6 @@ describe('Sleep Endpoints', function() {
 
   describe('POST /api/sleep', () => {
     it('updates user sleep, responding with 200 and updated data', () => {
-      //trying testUsers[0].id instead of userId
-      const userId = 1;
       const {sat_wake, sat_bed, sun_wake, sun_bed} = testUsers[1];
       const newData = { id: testUsers[0].id, sat_wake, sat_bed, sun_wake, sun_bed };
       const expectedRes = [{sat_wake, sat_bed, sun_wake, sun_bed}];

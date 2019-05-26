@@ -1,4 +1,5 @@
 'use strict';
+/* global supertest */
 
 const knex = require('knex');
 const jwt = require('jsonwebtoken');

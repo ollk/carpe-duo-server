@@ -42,7 +42,6 @@ tasksRouter
       .then(task => {
         res
           .status(201)
-          //is this location piece necessary?  is it even true?
           .location(path.posix.join(req.originalUrl, `/${task.id}`))
           .json(TasksService.serializeTask(task[0]));
       })

@@ -132,7 +132,6 @@ function makeFixtures() {
   return { testUsers, testTasks };
 }
 
-//TODO: may need to fix this
 function cleanTables(db) {
   return db.raw(
     `TRUNCATE
@@ -143,7 +142,7 @@ function cleanTables(db) {
 }
 
 function seedUsers(db, users) {
-  const preppedUsers = users.map(user => ({
+  const preppedUsers = users.map(user => ({ 
     ...user,
     password: bcrypt.hashSync(user.password, 1)
   }))

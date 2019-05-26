@@ -16,7 +16,6 @@ const TasksService = {
       .insert(newTask)
       .into('carpeduo_tasks')
       .returning('*');
-    //end here?  may work for this purpose
   },
 
   updateTask(db, task) {

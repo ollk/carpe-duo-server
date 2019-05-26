@@ -1,4 +1,5 @@
 'use strict';
+/* global supertest, expect */
 
 const knex = require('knex');
 const app = require('../src/app');
@@ -24,15 +25,6 @@ describe('Tasks Endpoints', function() {
 
   before('cleanup', () => helpers.cleanTables(db));
 
-  //afterEach('cleanup', () => helpers.cleanTables(db));
-
-  // beforeEach('insert tasks', () => {
-  //   helpers.seedTables(
-  //     db,
-  //     testUsers,
-  //     testTasks
-  //   );
-  // });
   before('insert tasks', () => {
     helpers.seedTables(
       db,
@@ -43,9 +35,6 @@ describe('Tasks Endpoints', function() {
 
 
   describe('GET /api/tasks/:user_id', () => {
-    //trying testUsers[0].id
-    // const userId = 1;
-    // const userIdEmpty = 4;
 
 
     context('Given no user tasks', () => {
@@ -68,6 +57,72 @@ describe('Tasks Endpoints', function() {
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, expectedTasks);
       });
+    });
+  });
+
+  describe('POST /api/tasks', () => {
+    before('cleanup', () => helpers.cleanTables(db));
+    before('insert tasks', () => {
+      helpers.seedTables(
+        db,
+        testUsers
+      );
+    });
+    it('creates a task, responding with 201 and the new task', () => {
+      const testUser = testUsers[0];
+      const newTask = {
+        task_name: 'Test new task',
+        duration: 30,
+        priority: 'medium',
+        user_id: testUser.id
+      };
+      return supertest(app)
+        .post('/api/tasks')
+        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        .send(newTask)
+        .expect(201)
+        .expect(res => {
+          expect(res.body).to.have.property('id');
+          expect(res.body.task_name).to.eql(newTask.task_name);
+          expect(res.body.duration).to.eql(newTask.duration);
+          expect(res.body.priority).to.eql(newTask.priority);
+          expect(res.body.user_id).to.eql(testUser.id);
+        })
+        .expect(res =>
+          db
+            .from('carpeduo_tasks')
+            .select('*')
+            .where({ id: res.body.id })
+            .first()
+            .then(row => {
+              expect(row.task_name).to.eql(newTask.task_name);
+              expect(row.duration).to.eql(newTask.duration);
+              expect(row.priority).to.eql(newTask.priority);
+              expect(row.user_id).to.eql(testUser.id);
+            })
+        );
+    });
+  });
+
+  describe('POST /api/tasks/:id', () => {
+    it('schedules a task, responding with 200 and the schedule data', () => {
+      const updatedTask = {
+        id: 1,
+        position: 120,
+        scheduled: true
+      };
+      return supertest(app)
+        .post('/api/tasks/1')
+        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        .send(updatedTask)
+        .expect(200)
+        .expect(res => {
+          expect(res.body[0]).to.have.property('id');
+          expect(res.body[0]).to.have.property('task_name');
+          expect(res.body[0]).to.have.property('user_id');
+          expect(res.body[0].position).to.eql(updatedTask.position);
+          expect(res.body[0].scheduled).to.eql(updatedTask.scheduled);
+        });
     });
   });
 });
