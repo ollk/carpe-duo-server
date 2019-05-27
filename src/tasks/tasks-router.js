@@ -75,9 +75,9 @@ tasksRouter
   });
 
 tasksRouter
-  .route('/reset/:userId')
+  .route('/reset/:user_id')
   .post(requireAuth, (req, res, next) => {
-    const user_id = req.params.userId;
+    const user_id = req.params.user_id;
 
     TasksService.resetTasks(
       req.app.get('db'),
