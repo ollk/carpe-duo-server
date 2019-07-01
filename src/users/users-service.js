@@ -3,7 +3,8 @@
 const xss = require('xss');
 const bcrypt = require('bcryptjs');
 
-const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
+// const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
+const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\S]+/;
 
 const UsersService = {
 
@@ -32,8 +33,11 @@ const UsersService = {
     if (password.startsWith(' ') || password.endsWith(' ')) {
       return 'Password must not start or end with empty spaces';
     }
+    // if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)) {
+    //   return 'Password must contain 1 upper case, lower case, number and special character';
+    // }
     if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)) {
-      return 'Password must contain 1 upper case, lower case, number and special character';
+      return 'Password must contain 1 upper case letter, lower case letter, and number';
     }
     return null;
   },
