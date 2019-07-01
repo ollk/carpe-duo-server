@@ -1,31 +1,41 @@
-# Express Boilerplate!
+# Carpe Duo API
 
-This is a boilerplate project used for starting new projects!
+## Overview
+Express server used by [Carpe Duo](https://github.com/ollk/carpe-duo-client) React app.
 
-## Set up
+## Documentation
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+### POST /login
+User login  
+*user_name* and *password* required in body
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+### POST /users
+Create new user
+*user_name*, *password* and *first_name* required in body
 
-## Scripts
+### POST /sleep
+Post waking hours
+*sat_wake*, *sat_bed*, *sun_wake* and *sun_bed*  required in body
 
-Start the application `npm start`
+### GET /sleep/:user_id
+Get user's waking hours
 
-Start nodemon for the application `npm run dev`
+### POST /tasks
+Create new task
+*task_name*, *duration*, *priority* and *user_id* required in body
 
-Run the tests `npm test`
+### GET /tasks/:user_id
+Get user's tasks
 
-## Deploying
+### POST /tasks/:id
+Schedule task
+*position* and *scheduled* required in body
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+### POST /tasks/reset/:user_id
+Unschedule all user tasks
 
-
+### DELETE /tasks/:id
+Delete task
 
 ## Node Modules Installed
 
